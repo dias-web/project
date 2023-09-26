@@ -19,6 +19,22 @@ function add_user($email, $password) {
     ]);
 }
 
+function login($email, $password) {
+    $pdo = new PDO('mysql:host=localhost;dbname=project', 'root', '');
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
+    $stmt->execute(['email' => $email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (empty($user) || !password_verify($password, $user['password'])) {
+        return false;
+
+    }
+
+    $_SESSION['user'] = ['email' => $user['email'], 'id' => $user['id'] ];
+    return true;
+
+}
+
 function set_flash_message($name, $message) {
     $_SESSION[$name] = $message;
     return $_SESSION[$name];
