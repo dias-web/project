@@ -3,7 +3,7 @@
 function getPDO()
 {
     $host = 'localhost';
-    $db   = 'project';
+    $db   = 'my_database';
     $user = 'root';
     $pass = '';
     $charset = 'utf8';

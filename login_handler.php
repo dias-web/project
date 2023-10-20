@@ -2,11 +2,14 @@
 session_start();
 
 require 'functions.php';
+require 'db.php';
+
+$pdo = getPDO();
 
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-$result = login($email, $password);
+$result = login($email, $password, $pdo);
 
 if($result) {
     redirect_to('/users.php');

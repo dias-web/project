@@ -2,11 +2,14 @@
 session_start();
 
 require 'functions.php';
+require 'db.php';
+
+$pdo = getPDO();
 
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-$user = get_user_by_email($email);
+$user = get_user_by_email($email, $pdo);
 
 
 if (!empty($user)) {
@@ -17,7 +20,7 @@ if (!empty($user)) {
 
 }
 
-add_user($email, $password);
+add_user($email, $password, $pdo);
 
 set_flash_message('success', 'Регистрация успешно завершена');
 
