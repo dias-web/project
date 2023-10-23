@@ -90,7 +90,7 @@ $users = get_users($pdo);
                                     </a>
                                     <?php if(is_admin(get_auth_user()) || is_equal($user, get_auth_user())) : ?>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="edit.html">
+                                        <a class="dropdown-item" href="edit.php">
                                             <i class="fa fa-edit"></i>
                                         Редактировать</a>
                                         <a class="dropdown-item" href="security.html">

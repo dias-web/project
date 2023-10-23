@@ -148,3 +148,10 @@ function add_social_links($vk, $telegram, $instagram, $id, $pdo)
     ]);
 }
 
+function get_user_by_id($id, $pdo)
+{
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE id = :id');
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
