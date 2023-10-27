@@ -18,6 +18,17 @@ $vk = $_POST['vk'];
 $telegram = $_POST['telegram'];
 $instagram = $_POST['instagram'];
 
+$data = [
+    ':username' => $username,
+    ':job_title' => $job,
+    ':phone' => $phone,
+    ':address' => $address,
+    ':status' => $status,
+    ':vk' => $vk,
+    ':telegram' => $telegram,
+    ':instagram' => $instagram,
+];
+
 $user = get_user_by_email($email, $pdo);
 
 if (!empty($user)) {
@@ -25,17 +36,13 @@ if (!empty($user)) {
     redirect_to('create_user.php');
 }
 
-$user_id =  add_user($email, $password, $pdo);
+$user_id = add_user($email, $password, $pdo);
 
-edit_user($username, $job, $phone, $address, $user_id, $pdo);
-
-set_status($status, $user_id, $pdo);
+edit_user($data, $user_id, $pdo);
 
 $fileName = uploadImage($_FILES['image']);
 
 upload_avatar($fileName, $user_id, $pdo);
-
-add_social_links($vk, $telegram, $instagram, $user_id, $pdo);
 
 set_flash_message('success', 'Пользователь успешно добавлен!');
 

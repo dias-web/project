@@ -1,8 +1,29 @@
+<?php
+session_start();
+
+require 'functions.php';
+require 'db.php';
+
+if(is_not_logged_in()) {
+    redirect_to('page_login.php');
+}
+$pdo = getPDO();
+$user = get_user_by_id($_GET['user_id'], $pdo);
+
+$status = [
+        'online' => 'Онлайн',
+        'away' => 'Отошел',
+        'do_not_disturb' => 'Не беспокоить'
+];
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Безопаность</title>
+    <title>Document</title>
     <meta name="description" content="Chartist.html">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
@@ -18,7 +39,7 @@
         <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/users.php">Главная <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -34,40 +55,35 @@
     <main id="js-page-content" role="main" class="page-content mt-3">
         <div class="subheader">
             <h1 class="subheader-title">
-                <i class='subheader-icon fal fa-lock'></i> Безопасность
+                <i class='subheader-icon fal fa-sun'></i> Установить статус
             </h1>
 
         </div>
-        <form action="">
+        <form action="status_handler.php?user_id_to_edit=<?=$user['id'] ?>" method="post">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
                         <div class="panel-container">
                             <div class="panel-hdr">
-                                <h2>Обновление эл. адреса и пароля</h2>
+                                <h2>Установка текущего статуса</h2>
                             </div>
                             <div class="panel-content">
-                                <!-- email -->
-                                <div class="form-group">
-                                    <label class="form-label" for="simpleinput">Email</label>
-                                    <input type="text" id="simpleinput" class="form-control" value="john@example.com">
-                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <!-- status -->
+                                        <div class="form-group">
+                                            <label class="form-label" for="example-select">Выберите статус</label>
+                                            <select class="form-control" id="example-select" name="status">
+                                                <?php foreach ($status as $key => $item) : ?>
+                                                <option <?= $key === $user['status'] ? 'selected' : '' ?> value="<?= $key ?>"><?= $item ?></option>
+                                                <?php endforeach; ?>
 
-                                <!-- password -->
-                                <div class="form-group">
-                                    <label class="form-label" for="simpleinput">Пароль</label>
-                                    <input type="password" id="simpleinput" class="form-control">
-                                </div>
-
-                                <!-- password confirmation-->
-                                <div class="form-group">
-                                    <label class="form-label" for="simpleinput">Подтверждение пароля</label>
-                                    <input type="password" id="simpleinput" class="form-control">
-                                </div>
-
-
-                                <div class="col-md-12 mt-3 d-flex flex-row-reverse">
-                                    <button class="btn btn-warning">Изменить</button>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3 d-flex flex-row-reverse">
+                                        <button class="btn btn-warning" type="submit">Set Status</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

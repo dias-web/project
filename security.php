@@ -1,8 +1,22 @@
+<?php
+session_start();
+
+require 'functions.php';
+require 'db.php';
+
+if(is_not_logged_in()) {
+    redirect_to('page_login.php');
+}
+$pdo = getPDO();
+$user = get_user_by_id($_GET['user_id'], $pdo);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Безопаность</title>
     <meta name="description" content="Chartist.html">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
@@ -18,7 +32,7 @@
         <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/users.php">Главная <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -32,36 +46,47 @@
         </div>
     </nav>
     <main id="js-page-content" role="main" class="page-content mt-3">
+        <?php display_flash_message('danger'); ?>
         <div class="subheader">
             <h1 class="subheader-title">
-                <i class='subheader-icon fal fa-image'></i> Загрузить аватар
+                <i class='subheader-icon fal fa-lock'></i> Безопасность
             </h1>
 
         </div>
-        <form action="">
+        <form action="security_handler.php?user_id_to_edit=<?= $user['id'] ?>" method="post">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
                         <div class="panel-container">
                             <div class="panel-hdr">
-                                <h2>Текущий аватар</h2>
+                                <h2>Обновление эл. адреса и пароля</h2>
                             </div>
                             <div class="panel-content">
+                                <!-- email -->
                                 <div class="form-group">
-                                    <img src="img/demo/authors/josh.png" alt="" class="img-responsive" width="200">
+                                    <label class="form-label" for="simpleinput">Email</label>
+                                    <input type="text" id="simpleinput" class="form-control" name="email" value="<?= $user['email'] ?>">
                                 </div>
 
+                                <!-- password -->
                                 <div class="form-group">
-                                    <label class="form-label" for="example-fileinput">Выберите аватар</label>
-                                    <input type="file" id="example-fileinput" class="form-control-file">
+                                    <label class="form-label" for="simpleinput">Пароль</label>
+                                    <input type="password" id="simpleinput" class="form-control" name="password">
+                                </div>
+
+                                <!-- password confirmation-->
+                                <div class="form-group">
+                                    <label class="form-label" for="simpleinput">Подтверждение пароля</label>
+                                    <input type="password" id="simpleinput" class="form-control">
                                 </div>
 
 
                                 <div class="col-md-12 mt-3 d-flex flex-row-reverse">
-                                    <button class="btn btn-warning">Загрузить</button>
+                                    <button class="btn btn-warning" type="submit">Изменить</button>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>

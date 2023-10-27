@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+require 'functions.php';
+require 'db.php';
+
+if(is_not_logged_in()) {
+    redirect_to('page_login.php');
+}
+$pdo = getPDO();
+$user = get_user_by_id($_GET['user_id'], $pdo);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,38 +47,33 @@
     <main id="js-page-content" role="main" class="page-content mt-3">
         <div class="subheader">
             <h1 class="subheader-title">
-                <i class='subheader-icon fal fa-sun'></i> Установить статус
+                <i class='subheader-icon fal fa-image'></i> Загрузить аватар
             </h1>
 
         </div>
-        <form action="">
+        <form action="/media_handler.php?user_id_to_edit=<?= $user['id'] ?>" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
                         <div class="panel-container">
                             <div class="panel-hdr">
-                                <h2>Установка текущего статуса</h2>
+                                <h2>Текущий аватар</h2>
                             </div>
                             <div class="panel-content">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <!-- status -->
-                                        <div class="form-group">
-                                            <label class="form-label" for="example-select">Выберите статус</label>
-                                            <select class="form-control" id="example-select">
-                                                <option>Онлайн</option>
-                                                <option>Отошел</option>
-                                                <option>Не беспокоить</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 mt-3 d-flex flex-row-reverse">
-                                        <button class="btn btn-warning">Set Status</button>
-                                    </div>
+                                <div class="form-group">
+                                    <img src="<?= $user['image'] ? '/uploads/' .  $user["image"] : '/img/demo/avatars/avatar-m.png' ?>" alt="" class="img-responsive" width="100">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="example-fileinput">Выберите аватар</label>
+                                    <input type="file" id="example-fileinput" class="form-control-file" name="image">
+                                </div>
+
+                                <div class="col-md-12 mt-3 d-flex flex-row-reverse">
+                                    <button class="btn btn-warning" type="submit">Загрузить</button>
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                 </div>
             </div>

@@ -39,7 +39,7 @@ $users = get_users($pdo);
                         <a class="nav-link" href="page_login.html">Войти</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Выйти</a>
+                        <a class="nav-link" href="/page_login.php">Выйти</a>
                     </li>
                 </ul>
             </div>
@@ -57,6 +57,7 @@ $users = get_users($pdo);
                     <?php if(is_admin(get_auth_user())) : ?>
                     <a class="btn btn-success" href="<?= is_admin(get_auth_user()) ? 'create_user.php' : 'page_login.php'  ?>">Добавить</a>
                     <?php endif; ?>
+                    <a class="btn btn-info ml-3" href="page_profile.php?user_id=<?= $_SESSION['user']['id'] ?>">Профиль пользователя</a>
                     <div class="border-faded bg-faded p-3 mb-g d-flex mt-3">
                         <input type="text" id="js-filter-contacts" name="filter-contacts" class="form-control shadow-inset-2 form-control-lg" placeholder="Найти пользователя">
                         <div class="btn-group btn-group-lg btn-group-toggle hidden-lg-down ml-3" data-toggle="buttons">
@@ -90,20 +91,20 @@ $users = get_users($pdo);
                                     </a>
                                     <?php if(is_admin(get_auth_user()) || is_equal($user, get_auth_user())) : ?>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="edit.php">
+                                        <a class="dropdown-item" href="edit.php?user_id=<?= $user['id'] ?>">
                                             <i class="fa fa-edit"></i>
                                         Редактировать</a>
-                                        <a class="dropdown-item" href="security.html">
+                                        <a class="dropdown-item" href="security.php?user_id=<?= $user['id'] ?>">
                                             <i class="fa fa-lock"></i>
                                         Безопасность</a>
-                                        <a class="dropdown-item" href="status.html">
+                                        <a class="dropdown-item" href="status.php?user_id=<?= $user['id'] ?>">
                                             <i class="fa fa-sun"></i>
                                         Установить статус</a>
-                                        <a class="dropdown-item" href="media.html">
+                                        <a class="dropdown-item" href="media.php?user_id=<?= $user['id'] ?>">
                                             <i class="fa fa-camera"></i>
                                             Загрузить аватар
                                         </a>
-                                        <a href="#" class="dropdown-item" onclick="return confirm('are you sure?');">
+                                        <a href="delete_handler.php?user_id=<?= $user['id'] ?>" class="dropdown-item" onclick="return confirm('are you sure?');">
                                             <i class="fa fa-window-close"></i>
                                             Удалить
                                         </a>

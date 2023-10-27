@@ -8,7 +8,7 @@ if(is_not_logged_in()) {
     redirect_to('page_login.php');
 }
 $pdo = getPDO();
-$user = get_user_by_id($_SESSION['user']['id'], $pdo);
+$user = get_user_by_id($_GET['user_id'], $pdo);
 
 ?>
 <!DOCTYPE html>
@@ -37,7 +37,7 @@ $user = get_user_by_id($_SESSION['user']['id'], $pdo);
     <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item ">
-                <a class="nav-link" href="#">Главная</a>
+                <a class="nav-link" href="/users.php">Главная</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
@@ -51,6 +51,7 @@ $user = get_user_by_id($_SESSION['user']['id'], $pdo);
     </div>
 </nav>
 <main id="js-page-content" role="main" class="page-content mt-3">
+    <?php display_flash_message('success'); ?>
     <div class="subheader">
         <h1 class="subheader-title">
             <i class='subheader-icon fal fa-user'></i> <?= $user['username'] ?>

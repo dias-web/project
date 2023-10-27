@@ -8,7 +8,8 @@ if (is_not_logged_in()) {
     redirect_to('page_login.php');
 }
 $pdo = getPDO();
-$user = get_user_by_id($_SESSION['user']['id'], $pdo);
+
+$user = get_user_by_id($_GET['user_id'], $pdo);
 
 ?>
 <!DOCTYPE html>
@@ -31,7 +32,7 @@ $user = get_user_by_id($_SESSION['user']['id'], $pdo);
         <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/users.php">Главная <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -52,7 +53,7 @@ $user = get_user_by_id($_SESSION['user']['id'], $pdo);
             </h1>
 
         </div>
-        <form action="edit_user_handler.php" method="post">
+        <form action="edit_user_handler.php?user_id_to_edit=<?= $user['id'] ?>" method="post">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -84,6 +85,7 @@ $user = get_user_by_id($_SESSION['user']['id'], $pdo);
                                     <label class="form-label" for="simpleinput">Адрес</label>
                                     <input type="text" id="simpleinput" class="form-control" name="address" value="<?= $user['address'] ?>">
                                 </div>
+
                                 <div class="col-md-12 mt-3 d-flex flex-row-reverse">
                                     <button class="btn btn-warning" type="submit">Редактировать</button>
                                 </div>
