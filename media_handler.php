@@ -13,11 +13,11 @@ $is_admin = is_admin(get_auth_user());
 $fileName = uploadImage($_FILES['image']);
 
 if ($is_admin) {
-    // Если пользователь - админ, то получите идентификатор пользователя, который должен быть отредактирован
+
     $user_id_to_edit = $_GET['user_id_to_edit'];
     upload_avatar($fileName, $user_id_to_edit, $pdo);
 } else {
-    // Если пользователь не является админом, редактируйте свой собственный профиль
+
     upload_avatar($fileName, $user_id, $pdo);
 }
 

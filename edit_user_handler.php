@@ -23,11 +23,11 @@ $user_id =  $_SESSION['user']['id'];
 $is_admin = is_admin(get_auth_user());
 
 if ($is_admin) {
-    // Если пользователь - админ, то получите идентификатор пользователя, который должен быть отредактирован
+
     $user_id_to_edit = $_GET['user_id_to_edit'];
     change_user_info($data, $user_id_to_edit, $pdo);
 } else {
-    // Если пользователь не является админом, редактируйте свой собственный профиль
+
     change_user_info($data, $user_id, $pdo);
 }
 

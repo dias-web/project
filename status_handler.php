@@ -13,11 +13,11 @@ $is_admin = is_admin(get_auth_user());
 $status = $_POST['status'];
 
 if ($is_admin) {
-    // Если пользователь - админ, то получите идентификатор пользователя, который должен быть отредактирован
+
     $user_id_to_edit = $_GET['user_id_to_edit'];
     set_status($status, $user_id_to_edit, $pdo);
 } else {
-    // Если пользователь не является админом, редактируйте свой собственный профиль
+
     set_status($status, $user_id, $pdo);
 }
 
